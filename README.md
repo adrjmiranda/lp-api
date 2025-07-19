@@ -29,16 +29,16 @@ This project is in the **beta** phase and is intended for use in web application
 
 ## 📁 Project Structure
 
-├── index.php # Main file
-├── .env # Environment variables
-├── logs/ # Log files
-├── temp/cache/ # Cache files templates
-├── templates/ # Latte templates
-├── src/
-│ ├── controllers/ # Application controllers
-│ └── services/ # Reusable services
-├── helpers.php # Utility functions
-└── composer.json # Project configuration
+- index.php # Main file
+- .env # Environment variables
+- logs/ # Log files
+- temp/cache/ # Cache files templates
+- templates/ # Latte templates
+- src/
+  - controllers/ # Application controllers
+  - services/ # Reusable services
+- helpers.php # Utility functions
+  - composer.json # Project configuration
 
 ---
 
