@@ -1,0 +1,42 @@
+{
+	"version": "1.0.0",
+	"name": "adriano/lp-api",
+	"description": "Collection of reusable PHP modules for common landing page functionality.",
+	"type": "project",
+	"license": "proprietary",
+	"scripts": {
+		"serve": "php -S localhost:8000 index.php"
+	},
+	"autoload": {
+		"psr-4": {
+			"LpApi\\Controllers\\": "src/controllers",
+			"LpApi\\Services\\": "src/services"
+		},
+		"files": [
+			"helpers.php"
+		]
+	},
+	"authors": [
+		{
+			"name": "Adriano Miranda",
+			"email": "adrjmiranda@gmail.com"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"latte/latte": "^3.1@dev",
+		"vlucas/phpdotenv": "^5.6@dev",
+		"slim/slim": "4.*",
+		"slim/psr7": "dev-main",
+		"monolog/monolog": "^3.0@dev",
+		"php-di/slim-bridge": "dev-master",
+		"phpmailer/phpmailer": "dev-master"
+	},
+	"config": {
+		"process-timeout": 0
+	},
+	"require-dev": {
+		"symfony/var-dumper": "7.4.x-dev",
+		"filp/whoops": "^2.18"
+	}
+}
