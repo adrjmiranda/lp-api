@@ -2,18 +2,20 @@
 
 namespace LpApi\Services;
 
+use LpApi\Helpers\App;
+
 class ReCAPTCHAService
 {
   private function verify(object $response): bool
   {
-    $score = (float) env("RECAPTCHA_SCORE");
+    $score = (float) App::env("RECAPTCHA_SCORE");
     return $response->success && $response->score >= $score;
   }
 
   public function v3(string $token): bool
   {
-    $secret = env("RECAPTCHA_SECRET_KEY");
-    $url = env("RECAPTCHA_VERIFY_URL");
+    $secret = App::env("RECAPTCHA_SECRET_KEY");
+    $url = App::env("RECAPTCHA_VERIFY_URL");
     $data = [
       "secret" => $secret,
       "response" => $token

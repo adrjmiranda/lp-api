@@ -10,7 +10,9 @@
 	"autoload": {
 		"psr-4": {
 			"LpApi\\Controllers\\": "src/controllers",
-			"LpApi\\Services\\": "src/services"
+			"LpApi\\Services\\": "src/services",
+			"LpApi\\Helpers\\": "src/Helpers",
+			"LpApi\\Middlewares\\": "src/middlewares"
 		},
 		"files": [
 			"helpers.php"
