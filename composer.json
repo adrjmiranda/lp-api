@@ -11,12 +11,9 @@
 		"psr-4": {
 			"LpApi\\Controllers\\": "src/controllers",
 			"LpApi\\Services\\": "src/services",
-			"LpApi\\Helpers\\": "src/Helpers",
+			"LpApi\\Helpers\\": "src/helpers",
 			"LpApi\\Middlewares\\": "src/middlewares"
-		},
-		"files": [
-			"helpers.php"
-		]
+		}
 	},
 	"authors": [
 		{
@@ -38,7 +35,6 @@
 		"process-timeout": 0
 	},
 	"require-dev": {
-		"symfony/var-dumper": "7.4.x-dev",
-		"filp/whoops": "^2.18"
+		"symfony/var-dumper": "7.4.x-dev"
 	}
 }

@@ -2,6 +2,7 @@
 
 use DI\Container;
 use Latte\Engine;
+use LpApi\Services\MailerService;
 use Monolog\Logger;
 use Latte\Loaders\FileLoader;
 use LpApi\Helpers\ApiResponse;
@@ -55,4 +56,9 @@ $container->set(ApiResponse::class, function (): ApiResponse {
   $response = new \Slim\Psr7\Response();
   $apiResponse = new ApiResponse($response);
   return $apiResponse;
+});
+
+$container->set(MailerService::class, function (): MailerService {
+  $mailerService = new MailerService();
+  return $mailerService;
 });

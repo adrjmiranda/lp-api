@@ -2,6 +2,7 @@
 
 
 use LpApi\Helpers\ApiResponse;
+use LpApi\Helpers\App;
 use LpApi\Middlewares\CorsMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,7 +23,7 @@ $app->addRoutingMiddleware();
 
 $app->add(CorsMiddleware::class);
 
-$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorMiddleware = $app->addErrorMiddleware(App::isDev(), true, App::isDev());
 
 $errorMiddleware->setErrorHandler(HttpNotFoundException::class, function (Request $request, Throwable $exception, bool $displayErrorDetails) use ($app): Response {
   $response = $app->getResponseFactory()->createResponse();

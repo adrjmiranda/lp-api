@@ -22,7 +22,6 @@ This project is in the **beta** phase and is intended for use in web application
 - **Monolog** – Logging system
 - **PHPMailer** – Sending emails via SMTP
 - **DotEnv** – Environment variable management
-- **Whoops** (dev) – Error handling with a user-friendly interface
 - **Symfony VarDumper** (dev) – Variable debugging
 
 ---
