@@ -10,3 +10,5 @@ composer.phar
 
 /temp/
 /logs/
+
+/templates/
