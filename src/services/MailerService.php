@@ -6,15 +6,35 @@ use LpApi\Helpers\App;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
+/**
+ * Service responsible for configuring and sending emails using PHPMailer.
+ */
 class MailerService
 {
+  /**
+   * The PHPMailer instance used to send emails.
+   *
+   * @var PHPMailer
+   */
   private PHPMailer $mail;
 
+  /**
+   * Initialize a new MailerService instance.
+   */
   public function __construct()
   {
     $this->mail = new PHPMailer(true);
   }
 
+  /**
+   * Configure the SMTP server settings.
+   *
+   * @param string $host     The SMTP host.
+   * @param string $username The SMTP username.
+   * @param string $secret   The SMTP password or secret.
+   * @param int    $port     The SMTP port.
+   * @return self
+   */
   public function serverSettings(string $host, string $username, string $secret, int $port): self
   {
     $this->mail->SMTPDebug = SMTP::DEBUG_OFF;
@@ -30,12 +50,19 @@ class MailerService
     };
     $this->mail->Port = $port;
     $this->mail->CharSet = "UTF-8";
-
     $this->mail->Timeout = 10;
 
     return $this;
   }
 
+  /**
+   * Set the sender and recipients for the email.
+   *
+   * @param string $fromAddress       Sender email address.
+   * @param string $fromName          Sender name.
+   * @param array  $recipientsAddress Associative array of recipients [email => name].
+   * @return self
+   */
   public function recipients(string $fromAddress, string $fromName, array $recipientsAddress): self
   {
     $this->mail->setFrom($fromAddress, $fromName);
@@ -46,6 +73,12 @@ class MailerService
     return $this;
   }
 
+  /**
+   * Attach files to the email.
+   *
+   * @param array $files Associative array of files [filename => path].
+   * @return self
+   */
   public function attachments(array $files = []): self
   {
     foreach ($files as $name => $path) {
@@ -55,6 +88,15 @@ class MailerService
     return $this;
   }
 
+  /**
+   * Set the content of the email.
+   *
+   * @param string $subject  The subject of the email.
+   * @param string $body     The HTML body of the email.
+   * @param string $altBody  The plain text alternative body.
+   * @param bool   $isHTML   Whether the email body is HTML (default: true).
+   * @return self
+   */
   public function content(string $subject, string $body, string $altBody, bool $isHTML = true): self
   {
     $this->mail->isHTML($isHTML);
@@ -65,6 +107,11 @@ class MailerService
     return $this;
   }
 
+  /**
+   * Send the configured email.
+   *
+   * @return bool True if the email was sent successfully, false otherwise.
+   */
   public function send(): bool
   {
     return $this->mail->send();
