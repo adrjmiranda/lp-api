@@ -7,16 +7,24 @@ use LpApi\Validation\ValidationFailedException;
 
 class DefaultMailerValidator
 {
+  private static array $rules = [];
+
+  public static function add(string $field, callable $validation, string $message): void
+  {
+    self::$rules[$field] = [
+      "validation" => $validation,
+      "message" => $message,
+    ];
+  }
+
   public function validate(array $data): void
   {
     $errors = [];
 
-    if (!isset($data["name"]) || !v::stringType()->notEmpty()->validate($data["name"])) {
-      $errors["name"] = "Nome é obrigatório";
-    }
-
-    if (!isset($data["email"]) || !v::email()->validate($data["email"])) {
-      $errors["email"] = "E-mail inválido";
+    foreach (self::$rules as $field => $rule) {
+      if (!isset($data[$field]) || !$rule["validation"]($data[$field])) {
+        $errors[$field] = $rule["message"];
+      }
     }
 
     if (!empty($errors)) {
