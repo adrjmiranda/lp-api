@@ -3,7 +3,7 @@
 	"name": "adriano/lp-api",
 	"description": "Collection of reusable PHP modules for common landing page functionality.",
 	"type": "project",
-	"license": "proprietary",
+	"license": "MIT",
 	"scripts": {
 		"serve": "php -S localhost:8000 index.php"
 	},

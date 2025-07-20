@@ -149,4 +149,4 @@ Current version: 1.0.0-beta
 
 ## 📝 License
 
-This project is proprietary and its use is restricted. Contact the author for more information.
+This project is licensed under the [MIT License](LICENSE).
