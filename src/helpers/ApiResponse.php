@@ -5,21 +5,21 @@ namespace LpApi\Helpers;
 use Slim\Psr7\Response as Response;
 
 /**
- * Classe responsável por padronizar e retornar respostas em formato JSON na API.
+ * Class responsible for standardizing and returning JSON responses in the API.
  */
 class ApiResponse
 {
   /**
-   * Instância de Response PSR-7 usada para enviar a resposta.
+   * PSR-7 Response instance used to send the response.
    *
    * @var Response
    */
   private Response $response;
 
   /**
-   * Construtor da classe.
+   * Class constructor.
    *
-   * @param Response $response Instância de resposta PSR-7.
+   * @param Response $response PSR-7 response instance.
    */
   public function __construct(Response $response)
   {
@@ -27,11 +27,11 @@ class ApiResponse
   }
 
   /**
-   * Gera o payload da resposta em JSON.
+   * Generates the JSON payload for the response.
    *
-   * @param string $message Mensagem principal da resposta.
-   * @param array $data Dados adicionais a serem enviados (opcional).
-   * @return string Retorna o JSON codificado com a mensagem e os dados.
+   * @param string $message The main message of the response.
+   * @param array $data Optional additional data to include.
+   * @return string Returns a JSON encoded string with message and data.
    */
   private function payload(string $message, array $data = []): string
   {
@@ -48,12 +48,12 @@ class ApiResponse
   }
 
   /**
-   * Envia uma resposta JSON padronizada.
+   * Sends a standardized JSON response.
    *
-   * @param string $message Mensagem principal da resposta.
-   * @param int $status Código de status HTTP da resposta (padrão: 200).
-   * @param array $data Dados adicionais a serem enviados (opcional).
-   * @return Response Retorna a instância de resposta PSR-7 com os dados escritos e cabeçalhos definidos.
+   * @param string $message The main message of the response.
+   * @param int $status HTTP status code of the response (default: 200).
+   * @param array $data Optional additional data to include.
+   * @return Response Returns the PSR-7 response instance with body and headers set.
    */
   public function send(string $message, int $status = 200, array $data = []): Response
   {
