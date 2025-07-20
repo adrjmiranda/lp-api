@@ -23,7 +23,7 @@ class MailerService
     $this->mail->SMTPAuth = true;
     $this->mail->Username = $username;
     $this->mail->Password = $secret;
-    $this->mail->SMTPSecure = match (App::env("SECURITY")) {
+    $this->mail->SMTPSecure = match (App::env("MAILER_SECURITY")) {
       "SMTPS" => PHPMailer::ENCRYPTION_SMTPS,
       "STARTTLS" => PHPMailer::ENCRYPTION_STARTTLS,
       default => PHPMailer::ENCRYPTION_STARTTLS
