@@ -23,6 +23,7 @@ This project is in the **beta** phase and is intended for use in web application
 - **PHPMailer** – Sending emails via SMTP
 - **DotEnv** – Environment variable management
 - **Symfony VarDumper** (dev) – Variable debugging
+- **Respect Validation** Data validation
 
 ---
 
@@ -69,6 +70,57 @@ composer serve
 ```
 http://localhost:8000
 ```
+
+## 🧪 Example
+
+Here's a basic usage example to illustrate how LP API works in a real scenario:
+
+```php
+<?php
+
+use LpApi\Helpers\App;
+use LpApi\Validation\DefaultMailerValidator;
+use Respect\Validation\Validator as v;
+
+require_once __DIR__ . "/bootstrap.php";
+
+// Add validation rules for the mailer
+DefaultMailerValidator::add("name", fn(mixed $input): bool =>
+    v::stringType()->notEmpty()->validate($input), "Name is required"
+);
+
+DefaultMailerValidator::add("email", fn(mixed $input): bool =>
+    v::email()->validate($input), "Invalid email"
+);
+
+// Load routes
+require_once App::rootPath() . "/src/routes/mailer.php";
+
+// Run the application
+$app->run();
+```
+
+### ✅ What this example does:
+
+- Loads application bootstrap
+
+- Adds custom validation rules for name and email
+
+- Loads the mailer routes
+
+- Starts the Slim application
+
+You can now send a `POST` request to `/mailer/send` with a JSON payload like:
+
+```json
+{
+	"name": "John Doe",
+	"email": "john@example.com",
+	"message": "Hello, I would like to get in touch."
+}
+```
+
+If validation passes, the email will be sent using PHPMailer, and logs will be recorded via Monolog.
 
 ## 🛡️ Security
 
