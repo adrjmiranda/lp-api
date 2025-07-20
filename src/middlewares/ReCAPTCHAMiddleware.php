@@ -10,12 +10,39 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Middleware to verify Google reCAPTCHA tokens in incoming requests.
+ */
 class ReCAPTCHAMiddleware implements MiddlewareInterface
 {
+  /**
+   * Logger instance to log messages.
+   *
+   * @var LoggerInterface
+   */
   private LoggerInterface $logger;
+
+  /**
+   * Service for verifying reCAPTCHA tokens.
+   *
+   * @var ReCAPTCHAService
+   */
   private ReCAPTCHAService $reCAPTCHAService;
+
+  /**
+   * ApiResponse helper to return JSON responses.
+   *
+   * @var ApiResponse
+   */
   private ApiResponse $apiResponse;
 
+  /**
+   * Constructor to initialize dependencies.
+   *
+   * @param LoggerInterface $logger Logger instance.
+   * @param ReCAPTCHAService $reCAPTCHAService Service for reCAPTCHA verification.
+   * @param ApiResponse $apiResponse Helper to send API responses.
+   */
   public function __construct(LoggerInterface $logger, ReCAPTCHAService $reCAPTCHAService, ApiResponse $apiResponse)
   {
     $this->logger = $logger;
@@ -23,6 +50,17 @@ class ReCAPTCHAMiddleware implements MiddlewareInterface
     $this->apiResponse = $apiResponse;
   }
 
+  /**
+   * Process the incoming request to validate the reCAPTCHA token.
+   * 
+   * - Reads the token from the JSON request body.
+   * - If token is missing or invalid, logs the issue and returns an error response.
+   * - On success, passes control to the next middleware/handler.
+   *
+   * @param Request $request The incoming server request.
+   * @param RequestHandler $handler The request handler.
+   * @return Response Returns a PSR-7 response, either error or the next handler's response.
+   */
   public function process(Request $request, RequestHandler $handler): Response
   {
     $body = (string) $request->getBody();
