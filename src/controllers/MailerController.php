@@ -12,16 +12,65 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Controller responsible for handling email sending through the API.
+ * 
+ * This controller receives data from the request body, validates the input,
+ * renders an HTML email template using Latte, and sends the email using PHPMailer.
+ */
 class MailerController
 {
+  /**
+   * Handles JSON API responses.
+   *
+   * @var ApiResponse
+   */
   private ApiResponse $apiResponse;
+
+  /**
+   * PSR-3 compatible logger.
+   *
+   * @var LoggerInterface
+   */
   private LoggerInterface $logger;
+
+  /**
+   * Service for configuring and sending emails.
+   *
+   * @var MailerService
+   */
   private MailerService $mailerService;
+
+  /**
+   * Latte template engine instance.
+   *
+   * @var Engine
+   */
   private Engine $latte;
+
+  /**
+   * Validator for the default mailer input.
+   *
+   * @var DefaultMailerValidator
+   */
   private DefaultMailerValidator $defaultMailerValidator;
 
-  public function __construct(ApiResponse $apiResponse, LoggerInterface $logger, MailerService $mailerService, Engine $latte, DefaultMailerValidator $defaultMailerValidator)
-  {
+  /**
+   * MailerController constructor.
+   *
+   * @param ApiResponse $apiResponse
+   * @param LoggerInterface $logger
+   * @param MailerService $mailerService
+   * @param Engine $latte
+   * @param DefaultMailerValidator $defaultMailerValidator
+   */
+  public function __construct(
+    ApiResponse $apiResponse,
+    LoggerInterface $logger,
+    MailerService $mailerService,
+    Engine $latte,
+    DefaultMailerValidator $defaultMailerValidator
+  ) {
     $this->apiResponse = $apiResponse;
     $this->logger = $logger;
     $this->mailerService = $mailerService;
@@ -29,10 +78,18 @@ class MailerController
     $this->defaultMailerValidator = $defaultMailerValidator;
   }
 
+  /**
+   * Handles the request to send an email.
+   *
+   * Validates input data, renders the email body using a Latte template,
+   * sends the email using MailerService, and returns an appropriate response.
+   *
+   * @param Request $request The HTTP request containing JSON body with template parameters.
+   * @param Response $response The HTTP response object to return.
+   * @return Response A PSR-7 compliant response with status code and message.
+   */
   public function send(Request $request, Response $response): Response
   {
-
-
     try {
       $requestBody = (string) $request->getBody();
 
@@ -73,6 +130,7 @@ class MailerController
       }
 
       return $this->apiResponse->send("Email sent successfully", 200);
+
     } catch (ValidationFailedException $th) {
       $this->logger->error("Validation failed for passed data", [
         "exception" => $th->getMessage(),
@@ -80,6 +138,7 @@ class MailerController
       ]);
 
       return $this->apiResponse->send($th->getMessage(), 400, $th->getErrors());
+
     } catch (\Throwable $th) {
       $this->logger->error("Unexpected error sending email", [
         "exception" => $th->getMessage(),
