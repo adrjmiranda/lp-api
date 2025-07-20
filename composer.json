@@ -12,7 +12,8 @@
 			"LpApi\\Controllers\\": "src/controllers",
 			"LpApi\\Services\\": "src/services",
 			"LpApi\\Helpers\\": "src/helpers",
-			"LpApi\\Middlewares\\": "src/middlewares"
+			"LpApi\\Middlewares\\": "src/middlewares",
+			"LpApi\\Validation\\": "src/validation"
 		}
 	},
 	"authors": [
@@ -29,7 +30,8 @@
 		"slim/psr7": "dev-main",
 		"monolog/monolog": "^3.0@dev",
 		"php-di/slim-bridge": "dev-master",
-		"phpmailer/phpmailer": "dev-master"
+		"phpmailer/phpmailer": "dev-master",
+		"respect/validation": "2.4.x-dev"
 	},
 	"config": {
 		"process-timeout": 0

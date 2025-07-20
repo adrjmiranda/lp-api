@@ -2,7 +2,9 @@
 
 use DI\Container;
 use Latte\Engine;
+use LpApi\Helpers\App;
 use LpApi\Services\MailerService;
+use LpApi\Validation\DefaultMailerValidator;
 use Monolog\Logger;
 use Latte\Loaders\FileLoader;
 use LpApi\Helpers\ApiResponse;
@@ -61,4 +63,9 @@ $container->set(ApiResponse::class, function (): ApiResponse {
 $container->set(MailerService::class, function (): MailerService {
   $mailerService = new MailerService();
   return $mailerService;
+});
+
+$container->set(DefaultMailerValidator::class, function (): DefaultMailerValidator {
+  $defaultMailerValidator = new DefaultMailerValidator();
+  return $defaultMailerValidator;
 });

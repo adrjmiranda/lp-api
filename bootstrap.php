@@ -13,9 +13,11 @@ use Slim\Factory\AppFactory;
 require __DIR__ . "/vendor/autoload.php";
 require __DIR__ . "/containers.php";
 
-$envs = [".env.settings", ".env.mail", ".env.recaptcha"];
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__, $envs);
-$dotenv->load();
+$envFiles = [".env.settings", ".env.mail", ".env.recaptcha"];
+foreach ($envFiles as $file) {
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__, $file);
+  $dotenv->load();
+}
 
 $app = AppFactory::create();
 
