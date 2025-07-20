@@ -8,8 +8,22 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
+/**
+ * Middleware to handle CORS (Cross-Origin Resource Sharing) headers.
+ */
 class CorsMiddleware implements MiddlewareInterface
 {
+  /**
+   * Processes an incoming server request and returns a response, 
+   * adding CORS headers accordingly.
+   * 
+   * If the HTTP method is OPTIONS, returns a 204 No Content response with CORS headers.
+   * Otherwise, passes the request to the next handler and adds CORS headers to the response.
+   *
+   * @param Request $request The server request.
+   * @param RequestHandler $handler The request handler.
+   * @return Response Returns the response with CORS headers.
+   */
   public function process(Request $request, RequestHandler $handler): Response
   {
     $allowOrigin = App::env("ALLOW_ORIGINS", "*");
