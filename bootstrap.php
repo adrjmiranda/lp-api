@@ -1,6 +1,5 @@
 <?php
 
-
 use LpApi\Helpers\ApiResponse;
 use LpApi\Helpers\App;
 use LpApi\Middlewares\CorsMiddleware;
@@ -11,7 +10,7 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . "/vendor/autoload.php";
-require __DIR__ . "/containers.php";
+require __DIR__ . "/config/container.php";
 
 $envFiles = [".env.settings", ".env.mail", ".env.recaptcha"];
 foreach ($envFiles as $file) {
