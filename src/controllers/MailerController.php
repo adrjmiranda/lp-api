@@ -53,8 +53,6 @@ class MailerController
 
       $this->defaultMailerValidator->validate($templateParams);
 
-      // return $this->apiResponse->send("Template path", 200, ["templatePath" => App::env("MAILER_TEMPLATE")]);
-
       $body = $this->latte->renderToString($templatePath, $templateParams);
 
       $result = $this->mailerService
