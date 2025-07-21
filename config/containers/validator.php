@@ -1,8 +1,8 @@
 <?php
 
-use LpApi\Validation\DefaultMailerValidator;
+use LpApi\Validation\MailerValidator;
 
-$container->set(DefaultMailerValidator::class, function (): DefaultMailerValidator {
-  $defaultMailerValidator = new DefaultMailerValidator();
-  return $defaultMailerValidator;
+$container->set(MailerValidator::class, function (): MailerValidator {
+  $mailerValidator = new MailerValidator();
+  return $mailerValidator;
 });

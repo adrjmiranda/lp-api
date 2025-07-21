@@ -6,7 +6,7 @@ use Latte\Engine;
 use LpApi\Helpers\ApiResponse;
 use LpApi\Helpers\App;
 use LpApi\Services\MailerService;
-use LpApi\Validation\DefaultMailerValidator;
+use LpApi\Validation\MailerValidator;
 use LpApi\Validation\ValidationFailedException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -51,9 +51,9 @@ class MailerController
   /**
    * Validator for the default mailer input.
    *
-   * @var DefaultMailerValidator
+   * @var MailerValidator
    */
-  private DefaultMailerValidator $defaultMailerValidator;
+  private MailerValidator $mailerValidator;
 
   /**
    * MailerController constructor.
@@ -62,20 +62,20 @@ class MailerController
    * @param LoggerInterface $logger
    * @param MailerService $mailerService
    * @param Engine $latte
-   * @param DefaultMailerValidator $defaultMailerValidator
+   * @param MailerValidator $mailerValidator
    */
   public function __construct(
     ApiResponse $apiResponse,
     LoggerInterface $logger,
     MailerService $mailerService,
     Engine $latte,
-    DefaultMailerValidator $defaultMailerValidator
+    MailerValidator $mailerValidator
   ) {
     $this->apiResponse = $apiResponse;
     $this->logger = $logger;
     $this->mailerService = $mailerService;
     $this->latte = $latte;
-    $this->defaultMailerValidator = $defaultMailerValidator;
+    $this->mailerValidator = $mailerValidator;
   }
 
   /**
@@ -91,8 +91,6 @@ class MailerController
   public function send(Request $request, Response $response): Response
   {
     try {
-      $requestBody = (string) $request->getBody();
-
       $host = App::env("MAILER_HOST");
       $username = App::env("MAILER_USERNAME");
       $secret = App::env("MAILER_SECRET");
@@ -105,10 +103,10 @@ class MailerController
 
       $subject = App::env("MAILER_SUBJECT");
       $templatePath = App::env("MAILER_TEMPLATE");
-      $templateParams = json_decode($requestBody, true);
-      $templateParams = App::sanitizeInput($templateParams);
 
-      $this->defaultMailerValidator->validate($templateParams);
+      $templateParams = $request->getParsedBody() ?? [];
+      $mailerRequiredFields = array_map("trim", explode(",", App::env("MAILER_REQUIRED_FIELDS")));
+      $templateParams = array_intersect_key($templateParams, array_flip($mailerRequiredFields));
 
       $body = $this->latte->renderToString($templatePath, $templateParams);
 
@@ -138,7 +136,6 @@ class MailerController
       ]);
 
       return $this->apiResponse->send($th->getMessage(), 400, $th->getErrors());
-
     } catch (\Throwable $th) {
       $this->logger->error("Unexpected error sending email", [
         "exception" => $th->getMessage(),

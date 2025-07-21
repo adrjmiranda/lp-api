@@ -12,3 +12,5 @@ composer.phar
 /logs/
 
 /templates/
+
+*.sql

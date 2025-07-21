@@ -8,23 +8,23 @@
  */
 
 use LpApi\Helpers\App;
-use LpApi\Validation\DefaultMailerValidator;
+use LpApi\Validation\MailerValidator;
 use Respect\Validation\Validator as v;
 
 // Load application dependencies and setup autoloading
 require_once __DIR__ . "/bootstrap.php";
 
-// Register email validation rules using the DefaultMailerValidator
+// Register email validation rules using the MailerValidator
 
 // Rule for 'name' field: must be a non-empty string
-DefaultMailerValidator::add(
+MailerValidator::add(
   "name",
   fn(mixed $input): bool => v::stringType()->notEmpty()->validate($input),
   "Nome é obrigatório"
 );
 
 // Rule for 'email' field: must be a valid email address
-DefaultMailerValidator::add(
+MailerValidator::add(
   "email",
   fn(mixed $input): bool => v::email()->validate($input),
   "E-mail inválido"

@@ -31,7 +31,8 @@
 		"monolog/monolog": "^3.0@dev",
 		"php-di/slim-bridge": "dev-master",
 		"phpmailer/phpmailer": "dev-master",
-		"respect/validation": "2.4.x-dev"
+		"respect/validation": "2.4.x-dev",
+		"catfan/medoo": "dev-master"
 	},
 	"config": {
 		"process-timeout": 0
