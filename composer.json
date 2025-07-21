@@ -1,5 +1,5 @@
 {
-	"version": "1.0.0-beta",
+	"version": "1.0.0",
 	"name": "adriano/lp-api",
 	"description": "Collection of reusable PHP modules for common landing page functionality.",
 	"type": "project",
