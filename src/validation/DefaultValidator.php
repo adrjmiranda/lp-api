@@ -2,8 +2,6 @@
 
 namespace LpApi\Validation;
 
-use LpApi\Validation\ValidationFailedException;
-
 class DefaultValidator implements ValidatorInterface
 {
   protected static array $rules = [];

@@ -7,7 +7,6 @@ use LpApi\Helpers\ApiResponse;
 use LpApi\Helpers\App;
 use LpApi\Services\MailerService;
 use LpApi\Validation\MailerValidator;
-use LpApi\Validation\ValidationFailedException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -129,13 +128,6 @@ class MailerController
 
       return $this->apiResponse->send("Email sent successfully", 200);
 
-    } catch (ValidationFailedException $th) {
-      $this->logger->error("Validation failed for passed data", [
-        "exception" => $th->getMessage(),
-        "trace" => $th->getTraceAsString()
-      ]);
-
-      return $this->apiResponse->send($th->getMessage(), 400, $th->getErrors());
     } catch (\Throwable $th) {
       $this->logger->error("Unexpected error sending email", [
         "exception" => $th->getMessage(),
